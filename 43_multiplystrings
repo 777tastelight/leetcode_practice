@@ -1,0 +1,19 @@
+class Solution {
+    public String multiply(String num1, String num2) {
+        if ("0".equals(num1) || "0".equals(num2))
+            return "0";
+        
+        final char[] arr1 = num1.toCharArray(), arr2 = num2.toCharArray();
+        final char[] product = new char[arr1.length + arr2.length];
+        Arrays.fill(product, '0');
+        for (int i = arr1.length - 1, currProduct = 0; i >= 0; i--)
+            for (int j = arr2.length - 1, idx = i + j + 1; j >= 0; j--, idx--) {
+                currProduct = (arr1[i] - '0') * (arr2[j] - '0') + product[idx] - '0';
+                product[idx] = (char) (currProduct % 10 + '0');
+                product[idx - 1] = (char) (product[idx - 1] + currProduct / 10);
+            }
+        
+        final int start = product[0] != '0' ? 0 : 1;
+        return String.copyValueOf(product, start, arr1.length + arr2.length - start);
+    }
+}
